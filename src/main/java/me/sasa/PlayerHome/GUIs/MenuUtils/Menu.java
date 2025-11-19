@@ -37,7 +37,7 @@ public abstract class Menu implements InventoryHolder {
     public abstract void setMenuItems();
 
     public void open() {
-        if (!(viewer.hasPermission("cwr-slime-fun-xp-farm.gui.upgradable"))) {
+        if (!(viewer.hasPermission("playerhome.home"))) {
             return;
         }
 
@@ -73,4 +73,10 @@ public abstract class Menu implements InventoryHolder {
 
         return item;
     }
+
+    public void addButton(String name, IconButton button) {
+        buttons.put(name, button);
+    }
+
+
 }

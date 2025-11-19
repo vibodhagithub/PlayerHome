@@ -31,7 +31,7 @@ public class HomeTabCompleter implements TabCompleter {
             case "delhome", "home":
                 if (args.length == 1) {
                     try {
-                        List<String> playerHomes = playerHomePlugin.getHomeDatabase().getHomesArray(player);
+                        List<String> playerHomes = playerHomePlugin.getHomeDatabase().getHomeNamesArray(player);
                         String typed = args[0].toLowerCase();
                         for (String home : playerHomes) {
                             if (home.toLowerCase().startsWith(typed)) {

@@ -90,7 +90,7 @@ public class HomesDatabase {
         return 0;
     }
 
-    public List<String> getHomesArray(Player player) throws SQLException {
+    public List<String> getHomeNamesArray(Player player) throws SQLException {
         List<String> homes = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT homename FROM homes WHERE player_uuid = ?")) {
             preparedStatement.setString(1, player.getUniqueId().toString());
@@ -153,6 +153,30 @@ public class HomesDatabase {
                 }
         }
         return null;
+    }
+
+    public List<HomeData> getPlayerAllHomes(Player player) throws SQLException {
+        List<HomeData> homes = new ArrayList<>();
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM homes WHERE player_uuid = ?")) {
+            preparedStatement.setString(1, player.getUniqueId().toString());
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    HomeData home = new HomeData(
+                            resultSet.getString("homename"),
+                            resultSet.getString("world"),
+                            resultSet.getDouble("x"),
+                            resultSet.getDouble("y"),
+                            resultSet.getDouble("z"),
+                            resultSet.getDouble("yaw"),
+                            resultSet.getDouble("pitch")
+                    );
+                    homes.add(home);
+                }
+            }
+        }
+
+        return homes;
     }
 
     public void closeConnection() throws SQLException {

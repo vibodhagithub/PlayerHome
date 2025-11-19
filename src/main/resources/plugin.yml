@@ -26,6 +26,16 @@ commands:
     children:
       playerhome.sethome: true
       playerhome.delhome: true
+      playerhome.homes: true
+  homes:
+    description: "See your homes!"
+    usage: "/homes"
+    permission: playerhome.homes
+    permission-manager: "You dont have permission to use that command!"
+    children:
+      playerhome.sethome: true
+      playerhome.delhome: true
+      playerhome.home: true
   test:
     description: "Test Stuff!"
     usage: "/test"
@@ -37,6 +47,7 @@ permissions:
       playerhome.sethome: true
       playerhome.delhome: true
       playerhome.home: true
+      playerhome.homes: true
 
   playerhome.sethome:
     description: Allows player to run /sethome command
@@ -46,4 +57,7 @@ permissions:
     default: true
   playerhome.home:
     description: Allows player to run /home command
+    default: true
+  playerhome.homes:
+    description: Allows player to run /homes command
     default: true

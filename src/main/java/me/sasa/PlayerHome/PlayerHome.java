@@ -2,6 +2,7 @@ package me.sasa.PlayerHome;
 
 import me.sasa.PlayerHome.Commands.*;
 import me.sasa.PlayerHome.Databases.HomesDatabase;
+import me.sasa.PlayerHome.GUIs.MenuUtils.MenuListener;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -20,6 +21,8 @@ public final class PlayerHome extends JavaPlugin {
 
         saveDefaultConfig();
 
+        getServer().getPluginManager().registerEvents(new MenuListener(), this);
+
         HomeTabCompleter tabCompleter = new HomeTabCompleter(this);
         getCommand("delhome").setTabCompleter(tabCompleter);
         getCommand("home").setTabCompleter(tabCompleter);
@@ -27,6 +30,7 @@ public final class PlayerHome extends JavaPlugin {
         getCommand("sethome").setExecutor(new SetHomeCommand(this));
         getCommand("delhome").setExecutor(new DelHomeCommand(this));
         getCommand("home").setExecutor(new HomeCommand(this));
+        getCommand("homes").setExecutor(new HomesCommand(this));
         getCommand("test").setExecutor(new Test(this));
 
         try {

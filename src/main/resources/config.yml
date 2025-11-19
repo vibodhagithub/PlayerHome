@@ -8,7 +8,7 @@ messages:
   home_exists: "§eA home with that name already exists!"
   home_deleted: "§aHome deleted successful."
   home_not_found: "§eNo home found with that name!"
-  teleported_home: "§aTeleported to home §e%home%&a."   # %home% = Telepoted home name
+  teleported_home: "§aTeleported to home §e%home%."   # %home% = Telepoted home name
   tp_again_cooldown: "§cYou must wait §e%time%s §cbefore teleporting again!"   # %time% = Cooldown
   tp_timer: "§aTeleporting in §e%time%s§a. Don't move!"   # %time% = Timer
 

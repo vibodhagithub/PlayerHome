@@ -1,24 +1,33 @@
 package me.sasa.PlayerHome.GUIs.Menus.TestingMenu;
 
+import me.sasa.PlayerHome.Databases.HomesDatabase;
+import me.sasa.PlayerHome.GUIs.MenuUtils.IconButton;
 import me.sasa.PlayerHome.GUIs.MenuUtils.Menu;
+import me.sasa.PlayerHome.Requests.HomeRequests;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
-// kamathi command ekaka.. mee class eka call karahan mee widihata..
-// new TestingGUI(Player oona_karana_player).open();
-
 public class TestingGUI extends Menu {
-    public TestingGUI(Player viewer) {
+
+    private final HomesDatabase database;
+
+    public TestingGUI(Player viewer, HomesDatabase database) {
         super(viewer);
+        this.database = database;
     }
 
     @Override
     public String getMenuName() {
-        return "GUI ekee nama chest ekee nama";
+        return "§bHomes";
     }
 
     @Override
@@ -29,32 +38,62 @@ public class TestingGUI extends Menu {
     @Override
     public void handleMenu(InventoryClickEvent event) {
         if (event.getWhoClicked() instanceof Player player) {
-            // inv able.
-            int rawSlot = event.getRawSlot();
-            if (rawSlot < 0 || getSlots() - 1 < rawSlot) {
-                return;
-            }
-
-            // cansel clickable if it's our gui
             event.setCancelled(true);
-            if (event.getCurrentItem() == null) {
-                // null pointer exceptions
-                return;
-            }
 
-            if (this.buttons.get(Objects.requireNonNull(event.getCurrentItem().getItemMeta()).getDisplayName()) != null) {
-                this.buttons.get(event.getCurrentItem().getItemMeta().getDisplayName()).onPressed(event);
+            if (event.getCurrentItem() == null || event.getCurrentItem().getType() == null) return;
+
+            String displayName = event.getCurrentItem().getItemMeta().getDisplayName();
+            if (buttons.containsKey(displayName)) {
+                buttons.get(displayName).onPressed(event, event.getClick());
             }
         }
     }
 
-    @Override
     public void setMenuItems() {
-        // Methana ubata oona widihata GUI ekata button hadaaganna puluwan..
-        this.inventory.setItem(0, new ItemStack(Material.DIAMOND));
-        this.inventory.setItem(1, new ItemStack(Material.IRON_AXE));
-        this.inventory.setItem(2, new ItemStack(Material.EMERALD));
-        this.inventory.setItem(3, new ItemStack(Material.BLUE_BED));
+
+        try {
+            List<HomesDatabase.HomeData> homes = database.getPlayerAllHomes(viewer);
+            int slot = 11;
+
+            for (HomesDatabase.HomeData data : homes) {
+                String homeName = data.getName();
+
+                ItemStack homeItem = makeItem(Material.LIGHT_BLUE_BED, "§b" + homeName,
+                        new String[]{
+                                "§eLeft-Click: §aTeleport",
+                                "§eRight-Click: §cDelete§e/§bSet"
+                        });
+
+                inventory.setItem(slot, homeItem);
+
+                addButton("§b" + homeName, new IconButton() {
+                    @Override
+                    public void onPressed(InventoryClickEvent event, ClickType clickType) {
+                        Player player = (Player) event.getWhoClicked();
+                        try {
+                            if (clickType == ClickType.LEFT) {
+                                // Run command
+                                String cmd = "home " + homeName; // Example command
+                                player.performCommand(cmd);
+                                player.closeInventory();
+                            }else {
+
+                            }
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                });
+
+                slot++;
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            viewer.sendMessage("§cCould not load your homes!");
+        }
+
     }
 }
 
