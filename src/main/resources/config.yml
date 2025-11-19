@@ -1,0 +1,32 @@
+# -------------------------------
+#           Messages
+# -------------------------------
+messages:
+  prefix: "&6&lHome &7» "
+
+  home_set: "§aHome §e%home% §ahas been created!"
+  home_exists: "§eA home with that name already exists!"
+  home_deleted: "§aHome deleted successful."
+  home_not_found: "§eNo home found with that name!"
+  teleported_home: "§aTeleported to home §e%home%&a."   # %home% = Telepoted home name
+  tp_again_cooldown: "§cYou must wait §e%time%s §cbefore teleporting again!"   # %time% = Cooldown
+  tp_timer: "§aTeleporting in §e%time%s§a. Don't move!"   # %time% = Timer
+
+  home_limit: "§cYou have reached the maximum number of homes."
+  home_world_not_allowd: "§cHome create not allowed in this world."
+  no_permission: "§cYou don't have permission to do that!"
+  tp_cancel_move: "§cTeleport cancelled because you moved."
+  player_only: "§cOnly players can use this command!"
+
+# -------------------------------
+#            Settings
+# -------------------------------
+
+settings:
+  not_allowed_worlds:  # Cannot /sethome in this worlds
+    - world_nether
+    - world_the_end
+  cancel_when_player_move: true
+  cooldowns:
+    before_tp: 5    # Teleport player to location after <time>s
+    next_tp: 10     # Wait <time>s before /home again

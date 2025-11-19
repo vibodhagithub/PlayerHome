@@ -1,0 +1,49 @@
+name: PlayerHome
+version: '1.0-SNAPSHOT'
+main: me.sasa.PlayerHome.PlayerHome
+api-version: '1.21'
+
+commands:
+  sethome:
+    description: "Set your home location!"
+    usage: "/sethome <name>"
+    permission: playerhome.sethome
+    permission-manager: "You dont have permission to use that command!"
+    children:
+      playerhome.delhome: true
+  delhome:
+    description: "Delete your home location!"
+    usage: "/delhome <name>"
+    permission: playerhome.delhome
+    permission-manager: "You dont have permission to use that command!"
+    children:
+      playerhome.sethome: true
+  home:
+    description: "Teleport to your home location!"
+    usage: "/home <name>"
+    permission: playerhome.home
+    permission-manager: "You dont have permission to use that command!"
+    children:
+      playerhome.sethome: true
+      playerhome.delhome: true
+  test:
+    description: "Test Stuff!"
+    usage: "/test"
+
+permissions:
+  playerhome.player:
+    description: "Allow player commands"
+    children:
+      playerhome.sethome: true
+      playerhome.delhome: true
+      playerhome.home: true
+
+  playerhome.sethome:
+    description: Allows player to run /sethome command
+    default: true
+  playerhome.delhome:
+    description: Allows player to run /delhome command
+    default: true
+  playerhome.home:
+    description: Allows player to run /home command
+    default: true
